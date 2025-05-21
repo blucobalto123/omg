@@ -13,7 +13,8 @@ NUM_CHANNELS = 10000
 DADDY_JSON_FILE = "daddyliveSchedule.json"
 M3U8_OUTPUT_FILE = "onlyevents.m3u8"
 LOGO = "https://raw.githubusercontent.com/cribbiox/eventi/refs/heads/main/ddsport.png"
-
+REFERER = "forcedtoplay.xyz"
+ORIGIN = "forcedtoplay.xyz"
 mStartTime = 0
 mStopTime = 0
 
@@ -47,7 +48,7 @@ def get_stream_link(dlhd_id, event_name="", channel_name="", max_retries=3):
         try:
             # Use timeout for all requests
             response = client.get(
-                f"https://daddylive.mp/embed/stream-{dlhd_id}.php",
+                f"https://daddylive.dad/embed/stream-{dlhd_id}.php",
                 headers=headers,
                 timeout=base_timeout
             )
@@ -461,9 +462,9 @@ def addChannelsByLeagueSport():
                                 tvg_name = f"{time_only} {event_details} - {day_num}/{month_num}/{year_short}"
 
                                 file.write(f'#EXTINF:-1 tvg-id="{event_name} - {event_details.split(":", 1)[1].strip() if ":" in event_details else event_details}" tvg-name="{tvg_name}" tvg-logo="{LOGO}" group-title="{clean_sport_key}", {channel["channel_name"]}\n')
-                                file.write('#EXTVLCOPT:http-referrer=https://webxzplay.cfd/\n')
+                                file.write(f'#EXTVLCOPT:http-referrer=https://{REFERER}/\n')
                                 file.write('#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36\n')
-                                file.write('#EXTVLCOPT:http-origin=https://webxzplay.cfd\n')
+                                file.write(f'#EXTVLCOPT:http-origin=https://{ORIGIN}\n')
                                 file.write(f"{stream_url_dynamic}\n\n")
 
                             processed_schedule_channels += 1
@@ -573,7 +574,7 @@ total_schedule_channels = 0 # Counter for total schedule channels attempted
 total_247_channels = 0 # Counter for total 24/7 channels attempted - will remain 0
 
 # Scarica il file JSON con la programmazione
-# fetcher.fetchHTML(DADDY_JSON_FILE, "https://daddylive.mp/schedule/schedule-generated.json")
+# fetcher.fetchHTML(DADDY_JSON_FILE, "https://daddylive.dad/schedule/schedule-generated.json")
 
 # Carica i dati dal JSON
 dadjson = loadJSON(DADDY_JSON_FILE)
